@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId "com.erenutku.configurablewidgetexample"
+        applicationId "com.rznnike.configurablewidgetexample"
         minSdkVersion 17
-        targetSdkVersion 24
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -17,13 +18,39 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError true
+        checkAllWarnings true
+        ignoreWarnings false
+        warningsAsErrors false
+        checkDependencies true
+        htmlReport true
+        explainIssues true
+        noLines false
+        textOutput 'stdout'
+    }
+    androidExtensions {
+        experimental = true
+    }
+    afterEvaluate {
+        applicationVariants.all {
+            variant ->
+                def variantName = variant.name.capitalize()
+                if (variantName != 'Debug') {
+                    project.tasks["compile${variantName}Sources"].dependsOn(project.tasks["lint${variantName}"])
+                }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 }
