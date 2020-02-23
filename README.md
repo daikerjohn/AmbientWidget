@@ -7,7 +7,7 @@ This mod uses Kotlin, newer SDK, API and gradle; migrated to AndroidX.
 
 
 # WidgetExamples
-There are 4 example of Android Widgets based on this article : https://medium.com/@erenutku/android-widgets-ad3d166458d3
+There are 5 example of Android Widgets based on this article : https://medium.com/@erenutku/android-widgets-ad3d166458d3
 
 
 ## DynamicWidgetExample
