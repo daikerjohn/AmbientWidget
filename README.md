@@ -1,6 +1,8 @@
 # Mod info
 This is updated and refactored version of widget examples.
+
 Original repo: https://github.com/yerenutku/WidgetExamples
+
 This mod uses Kotlin, newer SDK, API and gradle; migrated to AndroidX.
 
 
