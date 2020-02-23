@@ -39,7 +39,12 @@ class DynamicAppWidget : AppWidgetProvider() {
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
-    override fun onAppWidgetOptionsChanged(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetId: Int, newOptions: Bundle?) {
+    override fun onAppWidgetOptionsChanged(
+            context: Context?,
+            appWidgetManager: AppWidgetManager?,
+            appWidgetId: Int,
+            newOptions: Bundle?
+    ) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
         // See the dimensions and
         val options = appWidgetManager!!.getAppWidgetOptions(appWidgetId)
