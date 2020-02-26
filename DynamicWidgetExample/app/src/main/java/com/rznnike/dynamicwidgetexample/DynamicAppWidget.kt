@@ -54,7 +54,6 @@ class DynamicAppWidget : AppWidgetProvider() {
         // Construct the RemoteViews object
         val views = getRemoteViews(context!!, minWidth, minHeight)
         appWidgetManager.updateAppWidget(appWidgetId, views)
-        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
     }
 
     /**
@@ -64,12 +63,13 @@ class DynamicAppWidget : AppWidgetProvider() {
         // First find out rows and columns based on width provided.
         val rows = getCellsForSize(minHeight)
         val columns = getCellsForSize(minWidth)
-        val views = when (columns) {
-            1 -> RemoteViews(context.packageName, R.layout.dynamic_app_widget_1x1)
-            2 -> RemoteViews(context.packageName, R.layout.dynamic_app_widget_2x1)
-            3 -> RemoteViews(context.packageName, R.layout.dynamic_app_widget_3x1)
-            else -> RemoteViews(context.packageName, R.layout.dynamic_app_widget_4x1)
+        val layout = when (columns) {
+            1 -> R.layout.dynamic_app_widget_1x1
+            2 -> R.layout.dynamic_app_widget_2x1
+            3 -> R.layout.dynamic_app_widget_3x1
+            else -> R.layout.dynamic_app_widget_4x1
         }
+        val views = RemoteViews(context.packageName, layout)
         // Construct an Intent object includes web address.
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://google.com"))
         // In widget we are not allowing to use intents as usually. We have to use PendingIntent instead of 'startActivity'
