@@ -10,9 +10,8 @@ import android.content.Context
  */
 class ConfigurableWidget : AppWidgetProvider() {
     override fun onUpdate(
-            context: Context,
-            appWidgetManager: AppWidgetManager,
-            appWidgetIds: IntArray
-    ) { //do nothing
-    }
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) = Unit
 }

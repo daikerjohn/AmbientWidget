@@ -1,10 +1,12 @@
 package com.rznnike.configurablewidgetexample
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -21,6 +23,7 @@ class ConfigurableWidgetConfigureActivity : Activity() {
     private var widgetManager: AppWidgetManager? = null
     private var views: RemoteViews? = null
 
+    @SuppressLint("SetTextI18n")
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
         setResult(RESULT_CANCELED)
@@ -33,7 +36,10 @@ class ConfigurableWidgetConfigureActivity : Activity() {
         views = RemoteViews(this.packageName, R.layout.configurable_widget)
         // Find the widget id from the intent.
         intent.extras?.let {
-            mAppWidgetId = it.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+            mAppWidgetId = it.getInt(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID
+            )
         }
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish()
@@ -44,8 +50,23 @@ class ConfigurableWidgetConfigureActivity : Activity() {
             // Gets user input
             val url = editTextIUrl?.text.toString()
             val actionIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            val pending = PendingIntent.getActivity(this@ConfigurableWidgetConfigureActivity, 0, actionIntent, 0)
-            views?.setOnClickPendingIntent(R.id.tvWidget, pending)
+            @SuppressLint("UnspecifiedImmutableFlag")
+            val pendingIntent = if (Build.VERSION.SDK_INT >= 23) {
+                PendingIntent.getBroadcast(
+                    this@ConfigurableWidgetConfigureActivity,
+                    0,
+                    actionIntent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+            } else {
+                PendingIntent.getBroadcast(
+                    this@ConfigurableWidgetConfigureActivity,
+                    0,
+                    actionIntent,
+                    0
+                )
+            }
+            views?.setOnClickPendingIntent(R.id.tvWidget, pendingIntent)
             views?.setTextViewText(R.id.tvWidget, url)
             widgetManager?.updateAppWidget(mAppWidgetId, views)
             val resultValue = Intent()
