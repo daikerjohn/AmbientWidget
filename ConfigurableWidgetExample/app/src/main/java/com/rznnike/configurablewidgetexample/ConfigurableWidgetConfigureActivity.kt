@@ -52,14 +52,14 @@ class ConfigurableWidgetConfigureActivity : Activity() {
             val actionIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             @SuppressLint("UnspecifiedImmutableFlag")
             val pendingIntent = if (Build.VERSION.SDK_INT >= 23) {
-                PendingIntent.getBroadcast(
+                PendingIntent.getActivity(
                     this@ConfigurableWidgetConfigureActivity,
                     0,
                     actionIntent,
                     PendingIntent.FLAG_IMMUTABLE
                 )
             } else {
-                PendingIntent.getBroadcast(
+                PendingIntent.getActivity(
                     this@ConfigurableWidgetConfigureActivity,
                     0,
                     actionIntent,

@@ -77,14 +77,14 @@ class DynamicAppWidget : AppWidgetProvider() {
         // In widget we are not allowing to use intents as usually. We have to use PendingIntent instead of 'startActivity'
         @SuppressLint("UnspecifiedImmutableFlag")
         val pendingIntent = if (Build.VERSION.SDK_INT >= 23) {
-            PendingIntent.getBroadcast(
+            PendingIntent.getActivity(
                 context,
                 0,
                 intent,
                 PendingIntent.FLAG_IMMUTABLE
             )
         } else {
-            PendingIntent.getBroadcast(
+            PendingIntent.getActivity(
                 context,
                 0,
                 intent,
