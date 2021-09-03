@@ -12,9 +12,9 @@ import android.util.Log
  */
 class UpdatingWidget : AppWidgetProvider() {
     override fun onUpdate(
-            context: Context,
-            appWidgetManager: AppWidgetManager,
-            appWidgetIds: IntArray
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
     ) {
         AlarmReceiver.setAlarm(context, true)
         Log.d("UpdatingWidget: ", "onUpdate")
@@ -26,10 +26,10 @@ class UpdatingWidget : AppWidgetProvider() {
     }
 
     override fun onAppWidgetOptionsChanged(
-            context: Context,
-            appWidgetManager: AppWidgetManager,
-            appWidgetId: Int,
-            newOptions: Bundle
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        newOptions: Bundle
     ) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
         Log.d("UpdatingWidget: ", "onAppWidgetOptionsChanged")

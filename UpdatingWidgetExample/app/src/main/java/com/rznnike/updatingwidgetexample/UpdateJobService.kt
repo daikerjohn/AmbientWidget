@@ -11,7 +11,7 @@ import java.util.*
 class UpdateJobService : JobIntentService() {
     override fun onHandleWork(intent: Intent) {
         // generates random number
-        val random = Random()
+        val random = Random(System.currentTimeMillis())
         val randomInt = random.nextInt(100)
         val lastUpdate = "R: $randomInt"
         // Reaches the view on widget and displays the number
@@ -28,8 +28,7 @@ class UpdateJobService : JobIntentService() {
     companion object {
         private const val JOB_ID = 4242
 
-        fun enqueueWork(context: Context, intent: Intent) {
+        fun enqueueWork(context: Context, intent: Intent) =
             enqueueWork(context, ComponentName(context, UpdateJobService::class.java), JOB_ID, intent)
-        }
     }
 }
