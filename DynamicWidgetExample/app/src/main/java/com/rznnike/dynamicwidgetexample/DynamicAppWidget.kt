@@ -1,11 +1,13 @@
 package com.rznnike.dynamicwidgetexample
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.RemoteViews
 
@@ -14,9 +16,9 @@ import android.widget.RemoteViews
  */
 class DynamicAppWidget : AppWidgetProvider() {
     override fun onUpdate(
-            context: Context,
-            appWidgetManager: AppWidgetManager,
-            appWidgetIds: IntArray
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
     ) { // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
@@ -24,9 +26,9 @@ class DynamicAppWidget : AppWidgetProvider() {
     }
 
     private fun updateAppWidget(
-            context: Context,
-            appWidgetManager: AppWidgetManager,
-            appWidgetId: Int
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int
     ) {
         // See the dimensions and
         val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
@@ -40,10 +42,10 @@ class DynamicAppWidget : AppWidgetProvider() {
     }
 
     override fun onAppWidgetOptionsChanged(
-            context: Context?,
-            appWidgetManager: AppWidgetManager?,
-            appWidgetId: Int,
-            newOptions: Bundle?
+        context: Context?,
+        appWidgetManager: AppWidgetManager?,
+        appWidgetId: Int,
+        newOptions: Bundle?
     ) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
         // See the dimensions and
@@ -73,7 +75,22 @@ class DynamicAppWidget : AppWidgetProvider() {
         // Construct an Intent object includes web address.
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://google.com"))
         // In widget we are not allowing to use intents as usually. We have to use PendingIntent instead of 'startActivity'
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        @SuppressLint("UnspecifiedImmutableFlag")
+        val pendingIntent = if (Build.VERSION.SDK_INT >= 23) {
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        } else {
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                intent,
+                0
+            )
+        }
         // Here the basic operations the remote view can do.
         views.setOnClickPendingIntent(R.id.tvWidget, pendingIntent)
 
