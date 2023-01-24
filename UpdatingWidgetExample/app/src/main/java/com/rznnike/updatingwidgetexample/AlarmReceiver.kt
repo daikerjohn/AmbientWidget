@@ -28,7 +28,8 @@ class AlarmReceiver : BroadcastReceiver() {
         fun setAlarm(context: Context, force: Boolean) {
             cancelAlarm(context)
             val alarm = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val delay = 6000
+            // five minues?
+            val delay = 300000
             var time = System.currentTimeMillis()
             if (!force) {
                 time += delay
